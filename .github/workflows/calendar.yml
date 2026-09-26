@@ -1,0 +1,126 @@
+name: Update Today Calendar
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-calendar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out widget
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Create calendar feed
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATA_SOURCE_ID: ${{ secrets.NOTION_DATA_SOURCE_ID }}
+        run: |
+          python <<'PY'
+          import json
+          import os
+          import urllib.request
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+
+          token = os.environ["NOTION_TOKEN"]
+          data_source_id = os.environ["NOTION_DATA_SOURCE_ID"]
+
+          url = f"https://api.notion.com/v1/data_sources/{data_source_id}/query"
+
+          request = urllib.request.Request(
+              url,
+              data=json.dumps({"page_size": 100}).encode(),
+              method="POST",
+              headers={
+                  "Authorization": f"Bearer {token}",
+                  "Notion-Version": "2025-09-03",
+                  "Content-Type": "application/json",
+              },
+          )
+
+          with urllib.request.urlopen(request) as response:
+              data = json.load(response)
+
+          today = datetime.now(ZoneInfo("Australia/Brisbane")).date()
+          events = []
+
+          def plain_text(prop):
+              parts = prop.get("title") or prop.get("rich_text") or []
+              return "".join(part.get("plain_text", "") for part in parts).strip()
+
+          for page in data.get("results", []):
+              props = page.get("properties", {})
+
+              title = ""
+              for prop in props.values():
+                  if prop.get("type") == "title":
+                      title = plain_text(prop)
+                      break
+
+              date_prop = props.get("When", {}).get("date")
+
+              if not title or not date_prop or not date_prop.get("start"):
+                  continue
+
+              start_raw = date_prop["start"]
+
+              if "T" in start_raw:
+                  start = datetime.fromisoformat(
+                      start_raw.replace("Z", "+00:00")
+                  ).astimezone(ZoneInfo("Australia/Brisbane"))
+
+                  if start.date() != today:
+                      continue
+
+                  display_time = start.strftime("%-I:%M %p").lower()
+
+              else:
+                  start_date = datetime.fromisoformat(start_raw).date()
+
+                  if start_date != today:
+                      continue
+
+                  display_time = ""
+
+              events.append({
+                  "time": display_time,
+                  "title": title
+              })
+
+          events.sort(
+              key=lambda event: (
+                  event["time"] != "",
+                  event["time"]
+              )
+          )
+
+          with open("calendar.json", "w") as file:
+              json.dump(events, file, ensure_ascii=False, indent=2)
+
+          print(json.dumps(events, indent=2))
+          PY
+
+      - name: Publish calendar feed
+        run: |
+          git config user.name "Em HQ Calendar Bot"
+          git config user.email "actions@github.com"
+          git add calendar.json
+
+          if git diff --cached --quiet; then
+            echo "Calendar already up to date."
+            exit 0
+          fi
+
+          git commit -m "Update Today calendar"
+          git push
