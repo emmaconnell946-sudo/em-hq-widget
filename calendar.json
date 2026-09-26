@@ -3,30 +3,5 @@
     "time": "",
     "title": "Mid-semester break",
     "all_day": true
-  },
-  {
-    "time": "8:15 AM – 8:45 AM",
-    "title": "🧪 Widget test — Coffee",
-    "all_day": false
-  },
-  {
-    "time": "10:30 AM – 11:15 AM",
-    "title": "🧪 Widget test — Errands",
-    "all_day": false
-  },
-  {
-    "time": "12:30 PM – 1:30 PM",
-    "title": "🧪 Widget test — Lunch",
-    "all_day": false
-  },
-  {
-    "time": "3:00 PM – 4:00 PM",
-    "title": "🧪 Widget test — Study",
-    "all_day": false
-  },
-  {
-    "time": "6:30 PM – 7:30 PM",
-    "title": "🧪 Widget test — Dinner",
-    "all_day": false
   }
 ]
