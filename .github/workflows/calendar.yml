@@ -30,9 +30,13 @@ jobs:
           import json
           import os
           import urllib.request
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
 
           token = os.environ["NOTION_TOKEN"]
           data_source_id = os.environ["NOTION_DATA_SOURCE_ID"]
+
+          BRISBANE = ZoneInfo("Australia/Brisbane")
 
           url = f"https://api.notion.com/v1/data_sources/{data_source_id}/query"
 
@@ -63,11 +67,21 @@ jobs:
                   for part in parts
               ).strip()
 
+          def brisbane_time(iso_string):
+              if not iso_string:
+                  return ""
+
+              dt = datetime.fromisoformat(
+                  iso_string.replace("Z", "+00:00")
+              )
+
+              local = dt.astimezone(BRISBANE)
+
+              return local.strftime("%-I:%M %p")
+
           for page in data.get("results", []):
               props = page.get("properties", {})
 
-              # Calendar Mirror already determines whether
-              # this event belongs on today's dashboard.
               if formula_text(props.get("Show today", {})) != "Today":
                   continue
 
@@ -76,12 +90,30 @@ jobs:
               if not title:
                   continue
 
-              all_day = props.get("All day", {}).get("checkbox", False)
+              all_day = props.get(
+                  "All day", {}
+              ).get("checkbox", False)
 
               if all_day:
                   display_time = ""
+
               else:
-                  display_time = formula_text(props.get("Time", {}))
+                  when = props.get(
+                      "When", {}
+                  ).get("date") or {}
+
+                  start = when.get("start")
+                  end = when.get("end")
+
+                  start_time = brisbane_time(start)
+                  end_time = brisbane_time(end)
+
+                  if start_time and end_time:
+                      display_time = (
+                          f"{start_time} – {end_time}"
+                      )
+                  else:
+                      display_time = start_time
 
               events.append({
                   "time": display_time,
@@ -89,8 +121,6 @@ jobs:
                   "all_day": all_day,
               })
 
-          # All-day events first.
-          # Timed events then follow in chronological order.
           def sort_key(event):
               if event["all_day"]:
                   return (0, "")
@@ -99,9 +129,17 @@ jobs:
 
               try:
                   start_time = time.split("–")[0].strip()
-                  from datetime import datetime
-                  parsed = datetime.strptime(start_time, "%I:%M %p")
-                  return (1, parsed.strftime("%H:%M"))
+
+                  parsed = datetime.strptime(
+                      start_time,
+                      "%I:%M %p"
+                  )
+
+                  return (
+                      1,
+                      parsed.strftime("%H:%M")
+                  )
+
               except Exception:
                   return (1, time)
 
