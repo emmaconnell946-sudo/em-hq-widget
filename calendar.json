@@ -5,22 +5,27 @@
     "all_day": true
   },
   {
-    "time": "12:30 AM – 1:15 AM",
+    "time": "8:15 AM – 8:45 AM",
+    "title": "🧪 Widget test — Coffee",
+    "all_day": false
+  },
+  {
+    "time": "10:30 AM – 11:15 AM",
     "title": "🧪 Widget test — Errands",
     "all_day": false
   },
   {
-    "time": "2:30 AM – 3:30 AM",
+    "time": "12:30 PM – 1:30 PM",
     "title": "🧪 Widget test — Lunch",
     "all_day": false
   },
   {
-    "time": "5:00 AM – 6:00 AM",
+    "time": "3:00 PM – 4:00 PM",
     "title": "🧪 Widget test — Study",
     "all_day": false
   },
   {
-    "time": "8:30 AM – 9:30 AM",
+    "time": "6:30 PM – 7:30 PM",
     "title": "🧪 Widget test — Dinner",
     "all_day": false
   }
