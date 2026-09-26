@@ -3,142 +3,181 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Em HQ</title>
 
 <style>
-  :root {
-    --claret: #651f32;
-    --cream: #f7efe3;
-    --soft-cream: #e8d8c7;
-    --line: rgba(247, 239, 227, 0.22);
-  }
+:root {
+  --claret: #6b2035;
+  --cream: #f8efe2;
+  --muted: #e8d4c6;
+  --line: rgba(248,239,226,.20);
+}
 
-  * {
-    box-sizing: border-box;
-  }
+* { box-sizing: border-box; }
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: transparent;
-  }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
 
-  body {
-    font-family: Georgia, "Times New Roman", serif;
-    color: var(--cream);
-  }
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--cream);
+}
 
+.widget {
+  width: 100%;
+  background: var(--claret);
+  border-radius: 14px;
+  padding: 22px 28px 18px;
+}
+
+/* ───── TOP ROW ───── */
+
+.top {
+  display: grid;
+  grid-template-columns: minmax(300px, 1.5fr) 1fr 1fr;
+  gap: 30px;
+  align-items: center;
+}
+
+.date {
+  font-size: clamp(25px, 3vw, 37px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.weather {
+  min-width: 0;
+}
+
+.label {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.weather-primary {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.weather-icon {
+  font-size: 19px;
+}
+
+.temp {
+  font-size: 25px;
+}
+
+.range {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.weather-meta {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+  white-space: nowrap;
+}
+
+/* ───── CALENDAR ───── */
+
+.divider {
+  height: 1px;
+  background: var(--line);
+  margin: 17px 0 13px;
+}
+
+.calendar-label {
+  margin-bottom: 7px;
+}
+
+.events {
+  display: grid;
+  gap: 4px;
+}
+
+.event {
+  display: grid;
+  grid-template-columns: 75px 1fr;
+  align-items: baseline;
+  min-height: 19px;
+}
+
+.event-time {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.event-name {
+  font-size: 14px;
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ───── EXAMS ───── */
+
+.exams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 38px;
+}
+
+.exam {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.exam-name {
+  font-size: 14px;
+}
+
+.countdown {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ───── MOBILE ───── */
+
+@media (max-width: 650px) {
   .widget {
-    width: 100%;
-    min-height: 330px;
-    padding: 30px 34px;
-    background: var(--claret);
-    border-radius: 16px;
-    overflow: hidden;
+    padding: 20px;
+  }
+
+  .top {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
   }
 
   .date {
-    font-size: clamp(26px, 4vw, 42px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
-  }
-
-  .location {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--soft-cream);
-    margin-bottom: 25px;
-  }
-
-  .weather-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-
-  .weather-label,
-  .section-label {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--soft-cream);
-  }
-
-  .weather-main {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 7px 0 3px;
-  }
-
-  .weather-icon {
-    font-size: 25px;
-  }
-
-  .temperature {
-    font-size: 30px;
-  }
-
-  .condition {
-    font-size: 16px;
-    margin-bottom: 6px;
-  }
-
-  .weather-detail {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    color: var(--soft-cream);
-    line-height: 1.6;
-  }
-
-  .divider {
-    height: 1px;
-    background: var(--line);
-    margin: 25px 0 20px;
+    grid-column: 1 / -1;
   }
 
   .exams {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-    margin-top: 11px;
+    grid-template-columns: 1fr;
+    gap: 7px;
   }
-
-  .exam {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-  }
-
-  .exam-name {
-    font-size: 16px;
-  }
-
-  .countdown {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    white-space: nowrap;
-    color: var(--soft-cream);
-  }
-
-  @media (max-width: 560px) {
-    .widget {
-      padding: 25px;
-    }
-
-    .weather-grid,
-    .exams {
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-  }
+}
 </style>
 </head>
 
@@ -146,38 +185,58 @@
 
 <div class="widget">
 
-  <div class="date" id="date"></div>
-  <div class="location">Kensington Grove · 4341</div>
+  <div class="top">
 
-  <div class="weather-grid">
+    <div class="date" id="date"></div>
 
-    <div>
-      <div class="weather-label">Today</div>
-      <div class="weather-main">
-        <span class="weather-icon" id="today-icon">☀️</span>
-        <span class="temperature" id="today-temp">—°</span>
+    <div class="weather">
+      <div class="label">Today</div>
+
+      <div class="weather-primary">
+        <span class="weather-icon" id="today-icon">🌤️</span>
+        <span class="temp" id="today-temp">—°</span>
+        <span class="range" id="today-range"></span>
       </div>
-      <div class="condition" id="today-condition">Loading weather…</div>
-      <div class="weather-detail" id="today-detail"></div>
+
+      <div class="weather-meta">
+        💦 <span id="today-humidity">—</span>%
+        &nbsp;|&nbsp;
+        🌧 <span id="today-rain">—</span>%
+      </div>
     </div>
 
-    <div>
-      <div class="weather-label">Tomorrow</div>
-      <div class="weather-main">
+    <div class="weather">
+      <div class="label">Tomorrow</div>
+
+      <div class="weather-primary">
         <span class="weather-icon" id="tomorrow-icon">🌤️</span>
-        <span class="temperature" id="tomorrow-temp">—°</span>
+        <span class="temp" id="tomorrow-temp">—°</span>
+        <span class="range" id="tomorrow-range"></span>
       </div>
-      <div class="condition" id="tomorrow-condition">Loading weather…</div>
-      <div class="weather-detail" id="tomorrow-detail"></div>
+
+      <div class="weather-meta">
+        💦 <span id="tomorrow-humidity">—</span>%
+        &nbsp;|&nbsp;
+        🌧 <span id="tomorrow-rain">—</span>%
+      </div>
     </div>
 
   </div>
 
   <div class="divider"></div>
 
-  <div class="section-label">Exams</div>
+  <div class="label calendar-label">Today</div>
+
+  <!-- Temporary calendar placeholder.
+       This is the bit we'll connect to Calendar Mirror next. -->
+  <div class="events" id="events">
+    <div class="empty">Calendar loading soon…</div>
+  </div>
+
+  <div class="divider"></div>
 
   <div class="exams">
+
     <div class="exam">
       <span class="exam-name">🏥 NSN911</span>
       <span class="countdown" id="nsn911"></span>
@@ -187,6 +246,7 @@
       <span class="exam-name">⚖️ LWS101</span>
       <span class="countdown" id="lws101"></span>
     </div>
+
   </div>
 
 </div>
@@ -194,30 +254,44 @@
 <script>
 const TZ = "Australia/Brisbane";
 
-function updateDate() {
-  const now = new Date();
+/* ───── DATE ───── */
 
+function updateDate() {
   document.getElementById("date").textContent =
-    new Intl.DateTimeFormat("en-AU", {
+    new Intl.DateTimeFormat("en-US", {
       timeZone: TZ,
       weekday: "long",
       month: "long",
       day: "numeric"
-    }).format(now);
+    }).format(new Date());
 }
 
-function daysUntil(dateString) {
-  const todayString = new Intl.DateTimeFormat("en-CA", {
+/* ───── EXAMS ───── */
+
+function brisbaneDateString() {
+  const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: TZ,
     year: "numeric",
     month: "2-digit",
     day: "2-digit"
-  }).format(new Date());
+  }).formatToParts(new Date());
 
-  const today = new Date(todayString + "T00:00:00+10:00");
-  const target = new Date(dateString + "T00:00:00+10:00");
+  const get = type =>
+    parts.find(part => part.type === type).value;
 
-  return Math.ceil((target - today) / 86400000);
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+function daysUntil(dateString) {
+  const today = new Date(
+    brisbaneDateString() + "T00:00:00+10:00"
+  );
+
+  const target = new Date(
+    dateString + "T00:00:00+10:00"
+  );
+
+  return Math.round((target - today) / 86400000);
 }
 
 function countdownText(days) {
@@ -235,34 +309,38 @@ function updateCountdowns() {
     countdownText(daysUntil("2026-11-06"));
 }
 
-const weatherCodes = {
-  0: ["Clear", "☀️"],
-  1: ["Mostly clear", "🌤️"],
-  2: ["Partly cloudy", "⛅"],
-  3: ["Cloudy", "☁️"],
-  45: ["Foggy", "🌫️"],
-  48: ["Foggy", "🌫️"],
-  51: ["Light drizzle", "🌦️"],
-  53: ["Drizzle", "🌦️"],
-  55: ["Heavy drizzle", "🌧️"],
-  61: ["Light rain", "🌦️"],
-  63: ["Rain", "🌧️"],
-  65: ["Heavy rain", "🌧️"],
-  80: ["Showers", "🌦️"],
-  81: ["Showers", "🌧️"],
-  82: ["Heavy showers", "🌧️"],
-  95: ["Thunderstorms", "⛈️"],
-  96: ["Thunderstorms", "⛈️"],
-  99: ["Thunderstorms", "⛈️"]
+/* ───── WEATHER ───── */
+
+const weatherIcons = {
+  0: "☀️",
+  1: "🌤️",
+  2: "⛅",
+  3: "☁️",
+  45: "🌫️",
+  48: "🌫️",
+  51: "🌦️",
+  53: "🌦️",
+  55: "🌧️",
+  61: "🌦️",
+  63: "🌧️",
+  65: "🌧️",
+  80: "🌦️",
+  81: "🌧️",
+  82: "🌧️",
+  95: "⛈️",
+  96: "⛈️",
+  99: "⛈️"
 };
 
-function weatherDescription(code) {
-  return weatherCodes[code] || ["Weather", "🌤️"];
+function icon(code) {
+  return weatherIcons[code] || "🌤️";
 }
 
 async function loadWeather() {
+
   try {
-    /* Kensington Grove, QLD */
+
+    /* Kensington Grove, Queensland */
     const latitude = -27.54;
     const longitude = 152.47;
 
@@ -270,56 +348,93 @@ async function loadWeather() {
       `https://api.open-meteo.com/v1/forecast` +
       `?latitude=${latitude}` +
       `&longitude=${longitude}` +
-      `&current=temperature_2m,weather_code` +
+      `&current=temperature_2m,relative_humidity_2m,weather_code` +
+      `&hourly=relative_humidity_2m` +
       `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max` +
       `&timezone=Australia%2FBrisbane` +
       `&forecast_days=2`;
 
     const response = await fetch(url);
-    if (!response.ok) throw new Error("Weather unavailable");
+
+    if (!response.ok)
+      throw new Error("Weather unavailable");
 
     const data = await response.json();
 
-    const todayWeather = weatherDescription(data.daily.weather_code[0]);
-    const tomorrowWeather = weatherDescription(data.daily.weather_code[1]);
+    /* TODAY */
 
-    document.getElementById("today-icon").textContent = todayWeather[1];
+    document.getElementById("today-icon").textContent =
+      icon(data.current.weather_code);
+
     document.getElementById("today-temp").textContent =
       `${Math.round(data.current.temperature_2m)}°`;
-    document.getElementById("today-condition").textContent = todayWeather[0];
-    document.getElementById("today-detail").textContent =
-      `H ${Math.round(data.daily.temperature_2m_max[0])}° · ` +
-      `L ${Math.round(data.daily.temperature_2m_min[0])}° · ` +
-      `Rain ${data.daily.precipitation_probability_max[0]}%`;
 
-    document.getElementById("tomorrow-icon").textContent = tomorrowWeather[1];
+    document.getElementById("today-range").textContent =
+      `${Math.round(data.daily.temperature_2m_min[0])}–` +
+      `${Math.round(data.daily.temperature_2m_max[0])}°`;
 
-    /* Tomorrow shows the day's high as the headline temperature. */
+    document.getElementById("today-humidity").textContent =
+      Math.round(data.current.relative_humidity_2m);
+
+    document.getElementById("today-rain").textContent =
+      data.daily.precipitation_probability_max[0];
+
+
+    /* TOMORROW */
+
+    document.getElementById("tomorrow-icon").textContent =
+      icon(data.daily.weather_code[1]);
+
     document.getElementById("tomorrow-temp").textContent =
       `${Math.round(data.daily.temperature_2m_max[1])}°`;
 
-    document.getElementById("tomorrow-condition").textContent =
-      tomorrowWeather[0];
+    document.getElementById("tomorrow-range").textContent =
+      `${Math.round(data.daily.temperature_2m_min[1])}–` +
+      `${Math.round(data.daily.temperature_2m_max[1])}°`;
 
-    document.getElementById("tomorrow-detail").textContent =
-      `H ${Math.round(data.daily.temperature_2m_max[1])}° · ` +
-      `L ${Math.round(data.daily.temperature_2m_min[1])}° · ` +
-      `Rain ${data.daily.precipitation_probability_max[1]}%`;
+    document.getElementById("tomorrow-rain").textContent =
+      data.daily.precipitation_probability_max[1];
+
+
+    /* Average daytime humidity tomorrow: 06:00–18:00 */
+
+    const tomorrowDate = data.daily.time[1];
+
+    const humidityValues = data.hourly.time
+      .map((time, i) => ({
+        time,
+        humidity: data.hourly.relative_humidity_2m[i]
+      }))
+      .filter(item => {
+        if (!item.time.startsWith(tomorrowDate))
+          return false;
+
+        const hour = Number(item.time.slice(11, 13));
+        return hour >= 6 && hour < 18;
+      })
+      .map(item => item.humidity)
+      .filter(value => value != null);
+
+    const averageHumidity =
+      humidityValues.reduce((a, b) => a + b, 0) /
+      humidityValues.length;
+
+    document.getElementById("tomorrow-humidity").textContent =
+      Math.round(averageHumidity);
 
   } catch (error) {
-    document.getElementById("today-condition").textContent =
-      "Weather unavailable";
-    document.getElementById("tomorrow-condition").textContent =
-      "Weather unavailable";
+    console.error(error);
   }
 }
+
+/* ───── RUN ───── */
 
 updateDate();
 updateCountdowns();
 loadWeather();
 
-/* Refresh weather every 30 minutes. */
 setInterval(loadWeather, 30 * 60 * 1000);
+
 </script>
 
 </body>
