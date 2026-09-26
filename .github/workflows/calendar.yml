@@ -37,6 +37,7 @@ jobs:
           data_source_id = os.environ["NOTION_DATA_SOURCE_ID"]
 
           BRISBANE = ZoneInfo("Australia/Brisbane")
+          today = datetime.now(BRISBANE).date()
 
           url = f"https://api.notion.com/v1/data_sources/{data_source_id}/query"
 
@@ -56,10 +57,6 @@ jobs:
 
           events = []
 
-          def formula_text(prop):
-              formula = prop.get("formula", {})
-              return formula.get("string") or ""
-
           def title_text(prop):
               parts = prop.get("title", [])
               return "".join(
@@ -67,25 +64,31 @@ jobs:
                   for part in parts
               ).strip()
 
-          def brisbane_time(iso_string):
-              if not iso_string:
-                  return ""
+          def parse_datetime(value):
+              if not value:
+                  return None
 
               dt = datetime.fromisoformat(
-                  iso_string.replace("Z", "+00:00")
+                  value.replace("Z", "+00:00")
               )
 
-              local = dt.astimezone(BRISBANE)
+              if dt.tzinfo is None:
+                  dt = dt.replace(tzinfo=BRISBANE)
 
-              return local.strftime("%-I:%M %p")
+              return dt.astimezone(BRISBANE)
+
+          def display_time(dt):
+              if not dt:
+                  return ""
+
+              return dt.strftime("%I:%M %p").lstrip("0")
 
           for page in data.get("results", []):
               props = page.get("properties", {})
 
-              if formula_text(props.get("Show today", {})) != "Today":
-                  continue
-
-              title = title_text(props.get("Event", {}))
+              title = title_text(
+                  props.get("Event", {})
+              )
 
               if not title:
                   continue
@@ -94,56 +97,94 @@ jobs:
                   "All day", {}
               ).get("checkbox", False)
 
+              when = props.get(
+                  "When", {}
+              ).get("date") or {}
+
+              start_raw = when.get("start")
+              end_raw = when.get("end")
+
+              if not start_raw:
+                  continue
+
+              # ALL-DAY EVENTS
               if all_day:
-                  display_time = ""
+                  start_date = datetime.fromisoformat(
+                      start_raw[:10]
+                  ).date()
 
-              else:
-                  when = props.get(
-                      "When", {}
-                  ).get("date") or {}
-
-                  start = when.get("start")
-                  end = when.get("end")
-
-                  start_time = brisbane_time(start)
-                  end_time = brisbane_time(end)
-
-                  if start_time and end_time:
-                      display_time = (
-                          f"{start_time} – {end_time}"
-                      )
+                  if end_raw:
+                      end_date = datetime.fromisoformat(
+                          end_raw[:10]
+                      ).date()
                   else:
-                      display_time = start_time
+                      end_date = start_date
+
+                  # Google/Notion all-day end dates are exclusive.
+                  occurs_today = (
+                      start_date <= today < end_date
+                      if end_raw
+                      else start_date == today
+                  )
+
+                  if not occurs_today:
+                      continue
+
+                  events.append({
+                      "time": "",
+                      "title": title,
+                      "all_day": True,
+                      "sort": "0000",
+                  })
+
+                  continue
+
+              # TIMED EVENTS
+              start = parse_datetime(start_raw)
+              end = parse_datetime(end_raw)
+
+              if not start:
+                  continue
+
+              # Include anything that overlaps today in Brisbane.
+              if end:
+                  occurs_today = (
+                      start.date() <= today <= end.date()
+                  )
+              else:
+                  occurs_today = start.date() == today
+
+              if not occurs_today:
+                  continue
+
+              start_text = display_time(start)
+              end_text = display_time(end)
+
+              if start_text and end_text:
+                  time_text = (
+                      f"{start_text} – {end_text}"
+                  )
+              else:
+                  time_text = start_text
 
               events.append({
-                  "time": display_time,
+                  "time": time_text,
                   "title": title,
-                  "all_day": all_day,
+                  "all_day": False,
+                  "sort": start.strftime("%H%M"),
               })
 
-          def sort_key(event):
-              if event["all_day"]:
-                  return (0, "")
+          events.sort(
+              key=lambda event: (
+                  0 if event["all_day"] else 1,
+                  event["sort"]
+              )
+          )
 
-              time = event["time"].strip()
-
-              try:
-                  start_time = time.split("–")[0].strip()
-
-                  parsed = datetime.strptime(
-                      start_time,
-                      "%I:%M %p"
-                  )
-
-                  return (
-                      1,
-                      parsed.strftime("%H:%M")
-                  )
-
-              except Exception:
-                  return (1, time)
-
-          events.sort(key=sort_key)
+          # Don't expose the internal sort value
+          # in calendar.json.
+          for event in events:
+              event.pop("sort", None)
 
           with open("calendar.json", "w") as file:
               json.dump(
@@ -153,8 +194,15 @@ jobs:
                   indent=2
               )
 
+          print("Brisbane date:", today)
           print("Today's calendar:")
-          print(json.dumps(events, indent=2))
+          print(
+              json.dumps(
+                  events,
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
           PY
 
       - name: Publish calendar feed
