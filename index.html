@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Em HQ</title>
+
+<style>
+  :root {
+    --claret: #651f32;
+    --cream: #f7efe3;
+    --soft-cream: #e8d8c7;
+    --line: rgba(247, 239, 227, 0.22);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+  }
+
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--cream);
+  }
+
+  .widget {
+    width: 100%;
+    min-height: 330px;
+    padding: 30px 34px;
+    background: var(--claret);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .date {
+    font-size: clamp(26px, 4vw, 42px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .location {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--soft-cream);
+    margin-bottom: 25px;
+  }
+
+  .weather-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .weather-label,
+  .section-label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--soft-cream);
+  }
+
+  .weather-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 7px 0 3px;
+  }
+
+  .weather-icon {
+    font-size: 25px;
+  }
+
+  .temperature {
+    font-size: 30px;
+  }
+
+  .condition {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  .weather-detail {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: var(--soft-cream);
+    line-height: 1.6;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--line);
+    margin: 25px 0 20px;
+  }
+
+  .exams {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 11px;
+  }
+
+  .exam {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .exam-name {
+    font-size: 16px;
+  }
+
+  .countdown {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    white-space: nowrap;
+    color: var(--soft-cream);
+  }
+
+  @media (max-width: 560px) {
+    .widget {
+      padding: 25px;
+    }
+
+    .weather-grid,
+    .exams {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+
+  <div class="date" id="date"></div>
+  <div class="location">Kensington Grove · 4341</div>
+
+  <div class="weather-grid">
+
+    <div>
+      <div class="weather-label">Today</div>
+      <div class="weather-main">
+        <span class="weather-icon" id="today-icon">☀️</span>
+        <span class="temperature" id="today-temp">—°</span>
+      </div>
+      <div class="condition" id="today-condition">Loading weather…</div>
+      <div class="weather-detail" id="today-detail"></div>
+    </div>
+
+    <div>
+      <div class="weather-label">Tomorrow</div>
+      <div class="weather-main">
+        <span class="weather-icon" id="tomorrow-icon">🌤️</span>
+        <span class="temperature" id="tomorrow-temp">—°</span>
+      </div>
+      <div class="condition" id="tomorrow-condition">Loading weather…</div>
+      <div class="weather-detail" id="tomorrow-detail"></div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Exams</div>
+
+  <div class="exams">
+    <div class="exam">
+      <span class="exam-name">🏥 NSN911</span>
+      <span class="countdown" id="nsn911"></span>
+    </div>
+
+    <div class="exam">
+      <span class="exam-name">⚖️ LWS101</span>
+      <span class="countdown" id="lws101"></span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const TZ = "Australia/Brisbane";
+
+function updateDate() {
+  const now = new Date();
+
+  document.getElementById("date").textContent =
+    new Intl.DateTimeFormat("en-AU", {
+      timeZone: TZ,
+      weekday: "long",
+      month: "long",
+      day: "numeric"
+    }).format(now);
+}
+
+function daysUntil(dateString) {
+  const todayString = new Intl.DateTimeFormat("en-CA", {
+    timeZone: TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(new Date());
+
+  const today = new Date(todayString + "T00:00:00+10:00");
+  const target = new Date(dateString + "T00:00:00+10:00");
+
+  return Math.ceil((target - today) / 86400000);
+}
+
+function countdownText(days) {
+  if (days === 0) return "today";
+  if (days === 1) return "tomorrow";
+  if (days < 0) return "complete";
+  return `${days} days`;
+}
+
+function updateCountdowns() {
+  document.getElementById("nsn911").textContent =
+    countdownText(daysUntil("2026-11-04"));
+
+  document.getElementById("lws101").textContent =
+    countdownText(daysUntil("2026-11-06"));
+}
+
+const weatherCodes = {
+  0: ["Clear", "☀️"],
+  1: ["Mostly clear", "🌤️"],
+  2: ["Partly cloudy", "⛅"],
+  3: ["Cloudy", "☁️"],
+  45: ["Foggy", "🌫️"],
+  48: ["Foggy", "🌫️"],
+  51: ["Light drizzle", "🌦️"],
+  53: ["Drizzle", "🌦️"],
+  55: ["Heavy drizzle", "🌧️"],
+  61: ["Light rain", "🌦️"],
+  63: ["Rain", "🌧️"],
+  65: ["Heavy rain", "🌧️"],
+  80: ["Showers", "🌦️"],
+  81: ["Showers", "🌧️"],
+  82: ["Heavy showers", "🌧️"],
+  95: ["Thunderstorms", "⛈️"],
+  96: ["Thunderstorms", "⛈️"],
+  99: ["Thunderstorms", "⛈️"]
+};
+
+function weatherDescription(code) {
+  return weatherCodes[code] || ["Weather", "🌤️"];
+}
+
+async function loadWeather() {
+  try {
+    /* Kensington Grove, QLD */
+    const latitude = -27.54;
+    const longitude = 152.47;
+
+    const url =
+      `https://api.open-meteo.com/v1/forecast` +
+      `?latitude=${latitude}` +
+      `&longitude=${longitude}` +
+      `&current=temperature_2m,weather_code` +
+      `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max` +
+      `&timezone=Australia%2FBrisbane` +
+      `&forecast_days=2`;
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Weather unavailable");
+
+    const data = await response.json();
+
+    const todayWeather = weatherDescription(data.daily.weather_code[0]);
+    const tomorrowWeather = weatherDescription(data.daily.weather_code[1]);
+
+    document.getElementById("today-icon").textContent = todayWeather[1];
+    document.getElementById("today-temp").textContent =
+      `${Math.round(data.current.temperature_2m)}°`;
+    document.getElementById("today-condition").textContent = todayWeather[0];
+    document.getElementById("today-detail").textContent =
+      `H ${Math.round(data.daily.temperature_2m_max[0])}° · ` +
+      `L ${Math.round(data.daily.temperature_2m_min[0])}° · ` +
+      `Rain ${data.daily.precipitation_probability_max[0]}%`;
+
+    document.getElementById("tomorrow-icon").textContent = tomorrowWeather[1];
+
+    /* Tomorrow shows the day's high as the headline temperature. */
+    document.getElementById("tomorrow-temp").textContent =
+      `${Math.round(data.daily.temperature_2m_max[1])}°`;
+
+    document.getElementById("tomorrow-condition").textContent =
+      tomorrowWeather[0];
+
+    document.getElementById("tomorrow-detail").textContent =
+      `H ${Math.round(data.daily.temperature_2m_max[1])}° · ` +
+      `L ${Math.round(data.daily.temperature_2m_min[1])}° · ` +
+      `Rain ${data.daily.precipitation_probability_max[1]}%`;
+
+  } catch (error) {
+    document.getElementById("today-condition").textContent =
+      "Weather unavailable";
+    document.getElementById("tomorrow-condition").textContent =
+      "Weather unavailable";
+  }
+}
+
+updateDate();
+updateCountdowns();
+loadWeather();
+
+/* Refresh weather every 30 minutes. */
+setInterval(loadWeather, 30 * 60 * 1000);
+</script>
+
+</body>
+</html>
