@@ -30,26 +30,22 @@ body {
   width: 100%;
   background: var(--claret);
   border-radius: 14px;
-  padding: 22px 28px 18px;
+  padding: 20px 28px 18px;
 }
 
-/* ───── TOP ROW ───── */
+/* TOP */
 
 .top {
   display: grid;
-  grid-template-columns: minmax(300px, 1.5fr) 1fr 1fr;
-  gap: 30px;
+  grid-template-columns: minmax(320px, 1.6fr) 1fr 1fr;
+  gap: 34px;
   align-items: center;
 }
 
 .date {
-  font-size: clamp(25px, 3vw, 37px);
+  font-size: clamp(27px, 2.7vw, 34px);
   line-height: 1.05;
-  letter-spacing: -0.025em;
-}
-
-.weather {
-  min-width: 0;
+  letter-spacing: -.025em;
 }
 
 .label {
@@ -59,70 +55,88 @@ body {
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 4px;
 }
 
 .weather-primary {
   display: flex;
   align-items: baseline;
   gap: 7px;
+  margin-top: 4px;
   white-space: nowrap;
 }
 
-.weather-icon {
-  font-size: 19px;
-}
+.weather-icon { font-size: 18px; }
+.temp { font-size: 24px; }
 
-.temp {
-  font-size: 25px;
-}
-
-.range {
+.range,
+.weather-meta,
+.event-time,
+.countdown {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 11px;
   color: var(--muted);
 }
+
+.range { font-size: 11px; }
 
 .weather-meta {
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
-  color: var(--muted);
   margin-top: 3px;
   white-space: nowrap;
 }
 
-/* ───── CALENDAR ───── */
+/* DIVIDER */
 
-.divider {
+.horizontal-divider {
   height: 1px;
   background: var(--line);
-  margin: 17px 0 13px;
+  margin: 16px 0 14px;
 }
 
-.calendar-label {
-  margin-bottom: 7px;
+/* LOWER */
+
+.lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) minmax(230px, 1fr);
+  gap: 0;
 }
+
+.calendar {
+  padding-right: 30px;
+}
+
+.exams-panel {
+  border-left: 1px solid var(--line);
+  padding-left: 30px;
+}
+
+.section-label {
+  margin-bottom: 9px;
+}
+
+/* CALENDAR */
 
 .events {
   display: grid;
-  gap: 4px;
+  gap: 5px;
 }
 
 .event {
   display: grid;
-  grid-template-columns: 75px 1fr;
+  grid-template-columns: 74px 1fr;
   align-items: baseline;
-  min-height: 19px;
+  min-height: 18px;
 }
 
 .event-time {
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
-  color: var(--muted);
 }
 
 .event-name {
   font-size: 14px;
+}
+
+.all-day .event-name {
+  grid-column: 1 / -1;
 }
 
 .empty {
@@ -131,19 +145,18 @@ body {
   font-style: italic;
 }
 
-/* ───── EXAMS ───── */
+/* EXAMS */
 
 .exams {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 38px;
+  gap: 9px;
 }
 
 .exam {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
   gap: 15px;
+  align-items: baseline;
 }
 
 .exam-name {
@@ -151,31 +164,40 @@ body {
 }
 
 .countdown {
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
-  color: var(--muted);
   white-space: nowrap;
 }
 
-/* ───── MOBILE ───── */
+/* MOBILE */
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
   .widget {
-    padding: 20px;
+    padding: 19px 20px;
   }
 
   .top {
     grid-template-columns: 1fr 1fr;
-    gap: 18px;
+    gap: 17px;
   }
 
   .date {
     grid-column: 1 / -1;
   }
 
-  .exams {
+  .lower {
     grid-template-columns: 1fr;
-    gap: 7px;
+  }
+
+  .calendar {
+    padding-right: 0;
+  }
+
+  .exams-panel {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+    padding-top: 13px;
+    margin-top: 13px;
   }
 }
 </style>
@@ -223,28 +245,34 @@ body {
 
   </div>
 
-  <div class="divider"></div>
+  <div class="horizontal-divider"></div>
 
-  <div class="label calendar-label">Today</div>
+  <div class="lower">
 
-  <!-- Temporary calendar placeholder.
-       This is the bit we'll connect to Calendar Mirror next. -->
-  <div class="events" id="events">
-    <div class="empty">Calendar loading soon…</div>
-  </div>
+    <div class="calendar">
+      <div class="label section-label">Today</div>
 
-  <div class="divider"></div>
-
-  <div class="exams">
-
-    <div class="exam">
-      <span class="exam-name">🏥 NSN911</span>
-      <span class="countdown" id="nsn911"></span>
+      <div class="events" id="events">
+        <div class="empty">Calendar loading soon…</div>
+      </div>
     </div>
 
-    <div class="exam">
-      <span class="exam-name">⚖️ LWS101</span>
-      <span class="countdown" id="lws101"></span>
+    <div class="exams-panel">
+      <div class="label section-label">Exams</div>
+
+      <div class="exams">
+
+        <div class="exam">
+          <span class="exam-name">🏥 NSN911</span>
+          <span class="countdown" id="nsn911"></span>
+        </div>
+
+        <div class="exam">
+          <span class="exam-name">⚖️ LWS101</span>
+          <span class="countdown" id="lws101"></span>
+        </div>
+
+      </div>
     </div>
 
   </div>
@@ -254,7 +282,7 @@ body {
 <script>
 const TZ = "Australia/Brisbane";
 
-/* ───── DATE ───── */
+/* DATE */
 
 function updateDate() {
   document.getElementById("date").textContent =
@@ -266,7 +294,7 @@ function updateDate() {
     }).format(new Date());
 }
 
-/* ───── EXAMS ───── */
+/* EXAMS */
 
 function brisbaneDateString() {
   const parts = new Intl.DateTimeFormat("en-CA", {
@@ -283,13 +311,11 @@ function brisbaneDateString() {
 }
 
 function daysUntil(dateString) {
-  const today = new Date(
-    brisbaneDateString() + "T00:00:00+10:00"
-  );
+  const today =
+    new Date(brisbaneDateString() + "T00:00:00+10:00");
 
-  const target = new Date(
-    dateString + "T00:00:00+10:00"
-  );
+  const target =
+    new Date(dateString + "T00:00:00+10:00");
 
   return Math.round((target - today) / 86400000);
 }
@@ -309,7 +335,7 @@ function updateCountdowns() {
     countdownText(daysUntil("2026-11-06"));
 }
 
-/* ───── WEATHER ───── */
+/* WEATHER */
 
 const weatherIcons = {
   0: "☀️",
@@ -340,7 +366,6 @@ async function loadWeather() {
 
   try {
 
-    /* Kensington Grove, Queensland */
     const latitude = -27.54;
     const longitude = 152.47;
 
@@ -396,7 +421,7 @@ async function loadWeather() {
       data.daily.precipitation_probability_max[1];
 
 
-    /* Average daytime humidity tomorrow: 06:00–18:00 */
+    /* Tomorrow daytime humidity: 06:00–18:00 */
 
     const tomorrowDate = data.daily.time[1];
 
@@ -427,14 +452,11 @@ async function loadWeather() {
   }
 }
 
-/* ───── RUN ───── */
-
 updateDate();
 updateCountdowns();
 loadWeather();
 
 setInterval(loadWeather, 30 * 60 * 1000);
-
 </script>
 
 </body>
