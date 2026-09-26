@@ -107,7 +107,8 @@ jobs:
 
           with open("calendar.json", "w") as file:
               json.dump(events, file, ensure_ascii=False, indent=2)
-
+          print("PROPERTY NAMES:")
+          print(json.dumps(list(data["results"][0]["properties"].keys()), indent=2))
           print(json.dumps(events, indent=2))
           PY
 
