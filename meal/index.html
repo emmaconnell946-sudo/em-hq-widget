@@ -51,7 +51,20 @@ h1,h2{font-family:"DM Serif Display",Georgia,serif;font-weight:400;margin:0}h1{f
 const TZ="Australia/Brisbane";
 const DATA_URL="../meal.json";
 const API_URL="https://hook.us2.make.com/7frgklrwcah8mcxm5mpwcg69llirnp87";
+const COMPLETED_KEY="em-hq-meal-completed-v1";
+
 const fmtDate=d=>new Intl.DateTimeFormat("en-AU",{timeZone:TZ,weekday:"long",day:"numeric",month:"long"}).format(new Date(d+"T12:00:00+10:00"));
+function todayKey(){
+ const parts=new Intl.DateTimeFormat("en-AU",{timeZone:TZ,year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+ const get=t=>parts.find(p=>p.type===t)?.value;
+ return `${get("year")}-${get("month")}-${get("day")}`;
+}
+function completedIds(){
+ try{return new Set(JSON.parse(localStorage.getItem(COMPLETED_KEY)||"[]"))}catch{return new Set()}
+}
+function rememberCompleted(id){
+ const ids=completedIds();ids.add(id);localStorage.setItem(COMPLETED_KEY,JSON.stringify([...ids]));
+}
 function taskRow(t){
  const row=document.createElement("div"); row.className="task";
  const b=document.createElement("button"); b.className="check"; b.setAttribute("aria-label","Mark "+t.task+" done");
@@ -65,24 +78,48 @@ async function completeTask(t,row,b){
  try{
   const u=new URL(API_URL);u.searchParams.set("id",t.id);u.searchParams.set("done","true");
   await fetch(u.toString(),{method:"GET",mode:"no-cors",cache:"no-store"});
+  rememberCompleted(t.id);
   row.remove();status.textContent="Prep task marked done.";
+  setTimeout(load,150);
  }catch(e){
   b.disabled=false;status.textContent="Couldn't update prep task.";
  }
 }
 async function load(){
  try{
-  const r=await fetch(DATA_URL+"?v="+Date.now(),{cache:"no-store"}); if(!r.ok)throw Error(); const d=await r.json();
-  document.getElementById("date").textContent=fmtDate(d.date);
-  document.getElementById("meal").textContent=d.dinner?.name||"Nothing planned";
-  document.getElementById("kids").hidden=!d.dinner?.kidsTonight;
+  const r=await fetch(DATA_URL+"?v="+Date.now(),{cache:"no-store"}); if(!r.ok)throw Error(); const cache=await r.json();
+  const date=todayKey();
+  const day=cache.days?.[date]||{};
+  const dinner=day.dinner||null;
+  const completed=completedIds();
+  const due=(cache.prep||[]).filter(t=>t.doDate===date&&!t.done&&!completed.has(t.id));
+  const todayPrep=due.filter(t=>t.targetDate===date);
+  const advancePrep=due.filter(t=>t.targetDate>date);
+
+  document.getElementById("date").textContent=fmtDate(date);
+  document.getElementById("meal").textContent=dinner?.name||"Nothing planned";
+  document.getElementById("kids").hidden=!dinner?.kidsTonight;
+
   const today=document.getElementById("today-list");today.innerHTML="";
-  (d.todayPrep||[]).forEach(t=>today.appendChild(taskRow(t)));if(!d.todayPrep?.length)today.innerHTML='<div class="empty">Nothing to prep — just cook.</div>';
+  todayPrep.forEach(t=>today.appendChild(taskRow(t)));
+  if(!todayPrep.length)today.innerHTML='<div class="empty">Nothing to prep — just cook.</div>';
+
   const future=document.getElementById("future-list");future.innerHTML="";
-  const groups={};(d.advancePrep||[]).forEach(t=>(groups[t.targetDate]??=[]).push(t));
-  Object.keys(groups).sort().forEach(date=>{const g=document.createElement("div");g.className="day-group";const lab=document.createElement("div");lab.className="day";lab.textContent=fmtDate(date);const list=document.createElement("div");list.className="list";groups[date].forEach(t=>list.appendChild(taskRow(t)));g.append(lab,list);future.appendChild(g)});
-  if(!d.advancePrep?.length)future.innerHTML='<div class="empty">Nothing needed today.</div>';
- }catch(e){document.getElementById("meal").textContent="Dinner unavailable";document.getElementById("today-list").innerHTML='<div class="empty">Prep unavailable.</div>';document.getElementById("future-list").innerHTML='<div class="empty">Prep unavailable.</div>'}
+  const groups={};advancePrep.forEach(t=>(groups[t.targetDate]??=[]).push(t));
+  Object.keys(groups).sort().forEach(targetDate=>{
+   const g=document.createElement("div");g.className="day-group";
+   const lab=document.createElement("div");lab.className="day";lab.textContent=fmtDate(targetDate);
+   const list=document.createElement("div");list.className="list";
+   groups[targetDate].forEach(t=>list.appendChild(taskRow(t)));
+   g.append(lab,list);future.appendChild(g);
+  });
+  if(!advancePrep.length)future.innerHTML='<div class="empty">Nothing needed today.</div>';
+  document.getElementById("status").textContent="";
+ }catch(e){
+  document.getElementById("meal").textContent="Dinner unavailable";
+  document.getElementById("today-list").innerHTML='<div class="empty">Prep unavailable.</div>';
+  document.getElementById("future-list").innerHTML='<div class="empty">Prep unavailable.</div>';
+ }
 }
 load();setInterval(load,5*60*1000);
 </script>
