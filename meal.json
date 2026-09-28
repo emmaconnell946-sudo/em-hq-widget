@@ -1,17 +1,124 @@
 {
-  "date": "2026-09-28",
-  "dinner": {
-    "id": "3e878735-e4ca-8151-9502-cb15a3e25c06",
-    "name": "Miso short ribs",
-    "kidsTonight": false
+  "weekStart": "2026-09-28",
+  "weekEnd": "2026-10-04",
+  "days": {
+    "2026-09-28": {
+      "dinner": {
+        "id": "3e878735-e4ca-8151-9502-cb15a3e25c06",
+        "name": "Miso short ribs",
+        "kidsTonight": false
+      }
+    },
+    "2026-09-29": {
+      "dinner": {
+        "id": "3e878735-e4ca-81a6-8054-f4bc25fefff8",
+        "name": "Chicken carbonara",
+        "kidsTonight": false
+      }
+    },
+    "2026-09-30": {
+      "dinner": {
+        "id": "3e878735-e4ca-81db-a89b-d541ca940088",
+        "name": "Pork belly and coleslaw",
+        "kidsTonight": false
+      }
+    },
+    "2026-10-01": {
+      "dinner": {
+        "id": "3e878735-e4ca-8144-acd8-ccd91c295b1b",
+        "name": "Dry aged steak + veggies",
+        "kidsTonight": false
+      }
+    },
+    "2026-10-02": {
+      "dinner": {
+        "id": "3e878735-e4ca-81da-9613-f86c555863bd",
+        "name": "Crispy chicken fajitas",
+        "kidsTonight": false
+      }
+    }
   },
-  "todayPrep": [],
-  "advancePrep": [
+  "prep": [
+    {
+      "id": "3e978735-e4ca-81ab-9b1b-c79035e6971a",
+      "task": "Defrost chicken + bacon",
+      "doDate": "2026-09-28",
+      "targetDinner": "Chicken carbonara",
+      "targetDate": "2026-09-29",
+      "timing": "1 day before",
+      "done": true
+    },
     {
       "id": "3e978735-e4ca-81d5-8d24-f13e1b11a7ef",
       "task": "Defrost pork belly",
+      "doDate": "2026-09-28",
       "targetDinner": "Pork belly and coleslaw",
-      "targetDate": "2026-09-30"
+      "targetDate": "2026-09-30",
+      "timing": "2 days before",
+      "done": false
+    },
+    {
+      "id": "3e978735-e4ca-81b5-b423-e91e6b3937f0",
+      "task": "Dry pork skin + leave uncovered in fridge",
+      "doDate": "2026-09-29",
+      "targetDinner": "Pork belly and coleslaw",
+      "targetDate": "2026-09-30",
+      "timing": "1 day before",
+      "done": false
+    },
+    {
+      "id": "3e978735-e4ca-81ae-a9ec-e8f66700171c",
+      "task": "Defrost steak",
+      "doDate": "2026-09-29",
+      "targetDinner": "Dry aged steak + veggies",
+      "targetDate": "2026-10-01",
+      "timing": "2 days before",
+      "done": false
+    },
+    {
+      "id": "3e978735-e4ca-813b-b503-eb59eefdc33b",
+      "task": "Make coleslaw dressing",
+      "doDate": "2026-09-30",
+      "targetDinner": "Pork belly and coleslaw",
+      "targetDate": "2026-09-30",
+      "timing": "Same day",
+      "done": false
+    },
+    {
+      "id": "3e978735-e4ca-816c-9bfb-f5725437bdad",
+      "task": "Salt steak + leave uncovered in fridge",
+      "doDate": "2026-09-30",
+      "targetDinner": "Dry aged steak + veggies",
+      "targetDate": "2026-10-01",
+      "timing": "1 day before",
+      "done": false
+    },
+    {
+      "id": "3e978735-e4ca-81fd-a53d-ccc1d6547b00",
+      "task": "Defrost chicken",
+      "doDate": "2026-10-01",
+      "targetDinner": "Crispy chicken fajitas",
+      "targetDate": "2026-10-02",
+      "timing": "1 day before",
+      "done": false
+    },
+    {
+      "id": "3e978735-e4ca-8177-89a9-d2048404ffb9",
+      "task": "Prep chicken for crumbing",
+      "doDate": "2026-10-02",
+      "targetDinner": "Crispy chicken fajitas",
+      "targetDate": "2026-10-02",
+      "timing": "Same day",
+      "done": false
+    },
+    {
+      "id": "3e978735-e4ca-8163-931d-d0fb95d1f2e5",
+      "task": "Slice fajita veg/toppings",
+      "doDate": "2026-10-02",
+      "targetDinner": "Crispy chicken fajitas",
+      "targetDate": "2026-10-02",
+      "timing": "Same day",
+      "done": false
     }
   ]
 }
