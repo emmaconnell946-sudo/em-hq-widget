@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <link rel="preconnect" href="https://fonts.googleapis.com">\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --claret: #692337;
-      --cream: #FFB9B9;
-      --muted: #e8d4c6;
-      --line: rgba(248, 239, 226, 0.20);
+      --orange: #FF643C;
+      --ecru: #FFF0E6;
+      --pink: #FFB9B9;
+      --plum: #692337;
+      --white: #fffaf6;
+      --line: rgba(105, 35, 55, 0.15);
     }
 
     * {
@@ -21,44 +23,88 @@
       margin: 0;
       padding: 0;
       background: transparent;
-      color: var(--cream);
+      color: var(--plum);
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "DM Sans", Arial, sans-serif;
     }
 
     .widget {
       width: 100%;
-      background: var(--claret);
-      border-radius: 14px;
-      padding: 22px 28px 18px;
+      min-height: 310px;
+      background: var(--pink);
+      border-radius: 22px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(105, 35, 55, 0.08);
+    }
+
+    .widget::before,
+    .widget::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .widget::before {
+      width: 220px;
+      height: 220px;
+      background: var(--orange);
+      right: -115px;
+      top: -145px;
+      opacity: 0.9;
+    }
+
+    .widget::after {
+      width: 190px;
+      height: 190px;
+      background: var(--ecru);
+      left: -100px;
+      bottom: -125px;
+      opacity: 0.75;
     }
 
     /* TOP ROW */
 
     .top {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: minmax(300px, 1.5fr) 1fr 1fr;
-      gap: 32px;
-      align-items: start;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .top > div {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      background: rgba(255, 240, 230, 0.88);
+      backdrop-filter: blur(3px);
     }
 
     .date {
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: "DM Serif Display", Georgia, serif;
       font-size: clamp(32px, 3vw, 50px);
-      line-height: 1.05;
-      letter-spacing: -0.025em;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      color: var(--plum);
     }
 
     .weather-label,
     .section-label {
-      margin-bottom: 8px;
-      font-size: 12px;
+      margin-bottom: 12px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--orange);
     }
 
     .weather-main {
@@ -67,41 +113,56 @@
       gap: 9px;
     }
 
-    .weather-temp {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 30px;
-      font-weight: 400;
+    .weather-main > span:first-child {
+      font-size: 21px;
     }
 
-    .weather-range {
+    .weather-temp {
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1;
+      color: var(--plum);
+    }
+
+    .weather-range,
+    .weather-meta {
       font-size: 13px;
-      color: var(--muted);
+      color: rgba(105, 35, 55, 0.68);
     }
 
     .weather-meta {
-      margin-top: 5px;
-      font-size: 13px;
-      color: var(--muted);
+      margin-top: 7px;
     }
 
     /* LOWER AREA */
 
     .lower {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1.65fr 1fr;
-      gap: 34px;
-      margin-top: 20px;
-      padding-top: 17px;
-      border-top: 1px solid var(--line);
-      font-weight: 400;
+      gap: 16px;
+      margin-top: 16px;
     }
 
     /* CALENDAR */
 
+    .calendar {
+      border-radius: 18px;
+      padding: 20px;
+      background: var(--plum);
+      color: var(--ecru);
+    }
+
+    .calendar .section-label {
+      color: var(--pink);
+    }
+
     .calendar-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
     }
 
     .calendar-event {
@@ -110,17 +171,18 @@
       gap: 12px;
       align-items: baseline;
       min-height: 22px;
+      padding: 3px 0;
     }
 
     .event-time {
       font-size: 13px;
-      font-weight: 400;
-      color: var(--muted);
+      font-weight: 500;
+      color: rgba(255, 240, 230, 0.68);
       white-space: nowrap;
     }
 
     .event-title {
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: "DM Serif Display", Georgia, serif;
       font-size: 17px;
       font-weight: 400;
       overflow: hidden;
@@ -134,24 +196,27 @@
 
     .calendar-empty,
     .calendar-error {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 16px;
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: 17px;
       font-weight: 400;
       font-style: italic;
-      color: var(--muted);
+      color: rgba(255, 240, 230, 0.68);
     }
 
     .more-events {
-      margin-top: 2px;
+      margin-top: 4px;
       font-size: 12px;
-      font-weight: 400;
-      color: var(--muted);
+      color: rgba(255, 240, 230, 0.62);
     }
 
     /* EXAMS */
 
     .exams {
-      padding-left: 4px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      background: rgba(255, 250, 246, 0.78);
+      backdrop-filter: blur(3px);
     }
 
     .exam {
@@ -159,36 +224,48 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 16px;
       align-items: baseline;
-      padding: 3px 0 8px;
+      padding: 7px 0 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .exam:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
     }
 
     .exam-name {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 17px;
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: 18px;
       font-weight: 400;
+      color: var(--plum);
     }
 
     .exam-days {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--orange);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
       white-space: nowrap;
     }
 
     /* RESPONSIVE */
 
-    @media (max-width: 650px) {
+    @media (max-width: 700px) {
       .widget {
-        padding: 18px;
+        padding: 14px;
       }
 
       .top {
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
       }
 
       .date {
         grid-column: 1 / -1;
+        min-height: 88px;
       }
 
       .lower {
