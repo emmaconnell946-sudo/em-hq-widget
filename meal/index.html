@@ -18,7 +18,7 @@
 h1,h2{font-family:"DM Serif Display",Georgia,serif;font-weight:400;margin:0}h1{font-size:clamp(28px,3.2vw,46px);line-height:1.02}h2{font-size:25px;line-height:1.05}
 .date{margin-top:8px;font-size:13px;color:rgba(255,240,230,.72)}.badge{display:inline-flex;margin-top:20px;padding:7px 10px;border-radius:999px;background:var(--pink);color:var(--plum);font-size:12px;font-weight:700}
 .list{display:flex;flex-direction:column;gap:9px;margin-top:16px}.task{display:grid;grid-template-columns:22px minmax(0,1fr);gap:9px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}.task:last-child{border-bottom:0}
-.check{width:19px;height:19px;border:1.5px solid var(--plum);border-radius:6px;background:transparent;cursor:pointer;margin-top:1px}.check:hover{background:var(--pink)}
+.check{width:19px;height:19px;border:1.5px solid var(--plum);border-radius:6px;background:transparent;cursor:pointer;margin-top:1px}.check:hover{background:var(--pink)}.check:disabled{opacity:.45;cursor:wait}
 .task-name{font-size:14px;line-height:1.25}.for{font-size:11px;margin-top:3px;opacity:.65}.empty{font-family:"DM Serif Display",Georgia,serif;font-size:17px;opacity:.6;margin-top:18px}
 .future .eyebrow{color:var(--orange)}.today .eyebrow{color:var(--plum)}.day-group{margin-top:15px}.day{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--orange)}
 .status{position:relative;z-index:1;text-align:right;margin-top:12px;font-size:10px;opacity:.45}
@@ -50,18 +50,25 @@ h1,h2{font-family:"DM Serif Display",Georgia,serif;font-weight:400;margin:0}h1{f
 <script>
 const TZ="Australia/Brisbane";
 const DATA_URL="../meal.json";
-const API_URL=""; // Later: safe write endpoint (Make/serverless). Never put a Notion token here.
+const API_URL="https://hook.us2.make.com/7frgklrwcah8mcxm5mpwcg69llirnp87";
 const fmtDate=d=>new Intl.DateTimeFormat("en-AU",{timeZone:TZ,weekday:"long",day:"numeric",month:"long"}).format(new Date(d+"T12:00:00+10:00"));
 function taskRow(t){
  const row=document.createElement("div"); row.className="task";
  const b=document.createElement("button"); b.className="check"; b.setAttribute("aria-label","Mark "+t.task+" done");
  const wrap=document.createElement("div"); const n=document.createElement("div"); n.className="task-name"; n.textContent=t.task; wrap.appendChild(n);
  if(t.targetDinner){const f=document.createElement("div");f.className="for";f.textContent="for "+t.targetDinner;wrap.appendChild(f)}
- b.onclick=()=>completeTask(t,row); row.append(b,wrap); return row;
+ b.onclick=()=>completeTask(t,row,b); row.append(b,wrap); return row;
 }
-async function completeTask(t,row){
- if(!API_URL){document.getElementById("status").textContent="Checkbox write-back is not connected yet.";return}
- try{const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:t.id,done:true})});if(!r.ok)throw Error();row.remove()}catch(e){document.getElementById("status").textContent="Couldn't update prep task."}
+async function completeTask(t,row,b){
+ const status=document.getElementById("status");
+ b.disabled=true; status.textContent="Updating…";
+ try{
+  const u=new URL(API_URL);u.searchParams.set("id",t.id);u.searchParams.set("done","true");
+  await fetch(u.toString(),{method:"GET",mode:"no-cors",cache:"no-store"});
+  row.remove();status.textContent="Prep task marked done.";
+ }catch(e){
+  b.disabled=false;status.textContent="Couldn't update prep task.";
+ }
 }
 async function load(){
  try{
