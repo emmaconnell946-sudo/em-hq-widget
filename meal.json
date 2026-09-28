@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-28",
+  "dinner": {
+    "id": "3e878735-e4ca-8151-9502-cb15a3e25c06",
+    "name": "Miso short ribs",
+    "kidsTonight": false
+  },
+  "todayPrep": [],
+  "advancePrep": [
+    {
+      "id": "3e978735-e4ca-81ab-9b1b-c79035e6971a",
+      "task": "Defrost chicken + bacon",
+      "targetDinner": "Chicken carbonara",
+      "targetDate": "2026-09-29"
+    },
+    {
+      "id": "3e978735-e4ca-81d5-8d24-f13e1b11a7ef",
+      "task": "Defrost pork belly",
+      "targetDinner": "Pork belly and coleslaw",
+      "targetDate": "2026-09-30"
+    }
+  ]
+}
