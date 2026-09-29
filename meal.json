@@ -40,15 +40,6 @@
   },
   "prep": [
     {
-      "id": "3e978735-e4ca-81ab-9b1b-c79035e6971a",
-      "task": "Defrost chicken + bacon",
-      "doDate": "2026-09-28",
-      "targetDinner": "Chicken carbonara",
-      "targetDate": "2026-09-29",
-      "timing": "1 day before",
-      "done": true
-    },
-    {
       "id": "3e978735-e4ca-81d5-8d24-f13e1b11a7ef",
       "task": "Defrost pork belly",
       "doDate": "2026-09-28",
