@@ -1,22 +1,12 @@
 [
   {
     "time": "",
-    "title": "Recycling",
-    "all_day": true
-  },
-  {
-    "time": "",
     "title": "Kids",
     "all_day": true
   },
   {
     "time": "9:00 AM – 5:00 PM",
     "title": "Work",
-    "all_day": false
-  },
-  {
-    "time": "11:00 AM – 12:00 PM",
-    "title": "LWS101 tutorial",
     "all_day": false
   }
 ]
