@@ -1,0 +1,229 @@
+name: Update Meal Widget v2
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-meals:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out widget
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build meal feed from Notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          python <<'PY'
+          import json
+          import os
+          import urllib.request
+          from datetime import datetime, timedelta
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+
+          TOKEN = os.environ["NOTION_TOKEN"]
+          MEAL_PLAN_SOURCE = "ae01cd31-0920-4d59-9a3c-d3df034d5a65"
+          PREP_SOURCE = "ce331627-c836-42e4-9119-5243cc30dbf3"
+          VERSION = "2025-09-03"
+          BRISBANE = ZoneInfo("Australia/Brisbane")
+          now = datetime.now(BRISBANE)
+          today = now.date()
+
+          def query_all(data_source_id):
+              url = f"https://api.notion.com/v1/data_sources/{data_source_id}/query"
+              results = []
+              cursor = None
+
+              while True:
+                  body = {"page_size": 100}
+                  if cursor:
+                      body["start_cursor"] = cursor
+
+                  request = urllib.request.Request(
+                      url,
+                      data=json.dumps(body).encode(),
+                      method="POST",
+                      headers={
+                          "Authorization": f"Bearer {TOKEN}",
+                          "Notion-Version": VERSION,
+                          "Content-Type": "application/json",
+                      },
+                  )
+
+                  with urllib.request.urlopen(request) as response:
+                      data = json.load(response)
+
+                  results.extend(data.get("results", []))
+
+                  if not data.get("has_more"):
+                      break
+
+                  cursor = data.get("next_cursor")
+
+              return results
+
+          def title_text(prop):
+              return "".join(
+                  part.get("plain_text", "")
+                  for part in prop.get("title", [])
+              ).strip()
+
+          def checkbox(prop):
+              return bool(prop.get("checkbox", False))
+
+          def date_start(prop):
+              value = (prop.get("date") or {}).get("start")
+              return value[:10] if value else None
+
+          def select_name(prop):
+              item = prop.get("select")
+              return item.get("name") if item else None
+
+          meal_pages = query_all(MEAL_PLAN_SOURCE)
+          prep_pages = query_all(PREP_SOURCE)
+
+          meal_map = {}
+          days = {}
+
+          window_start = today - timedelta(days=3)
+          window_end = today + timedelta(days=21)
+
+          for page in meal_pages:
+              props = page.get("properties", {})
+              name = title_text(props.get("Dinner", {}))
+              meal_date = date_start(props.get("Date", {}))
+              done = checkbox(props.get("Done", {}))
+              kids = checkbox(props.get("Kids Tonight", {}))
+
+              if not name or not meal_date:
+                  continue
+
+              info = {
+                  "name": name,
+                  "date": meal_date,
+                  "kidsTonight": kids,
+                  "done": done,
+              }
+
+              page_id = page.get("id", "")
+              meal_map[page_id] = info
+              meal_map[page_id.replace("-", "")] = info
+
+              d = datetime.fromisoformat(meal_date).date()
+              if window_start <= d <= window_end and not done:
+                  days.setdefault(meal_date, {"dinners": []})
+                  days[meal_date]["dinners"].append({
+                      "name": name,
+                      "kidsTonight": kids,
+                  })
+
+          prep = []
+
+          for page in prep_pages:
+              props = page.get("properties", {})
+              task = title_text(props.get("Task", {}))
+              do_date = date_start(props.get("Do Date", {}))
+              done = checkbox(props.get("Done", {}))
+              timing = select_name(props.get("Timing", {}))
+
+              if not task or not do_date or done:
+                  continue
+
+              d = datetime.fromisoformat(do_date).date()
+              if not (window_start <= d <= window_end):
+                  continue
+
+              relations = props.get("Dinner", {}).get("relation", [])
+              target = None
+
+              for relation in relations:
+                  relation_id = relation.get("id", "")
+                  target = (
+                      meal_map.get(relation_id)
+                      or meal_map.get(relation_id.replace("-", ""))
+                  )
+                  if target:
+                      break
+
+              prep.append({
+                  "id": page.get("id"),
+                  "task": task,
+                  "doDate": do_date,
+                  "targetDinner": target.get("name") if target else None,
+                  "targetDate": target.get("date") if target else None,
+                  "timing": timing,
+                  "done": False,
+              })
+
+          prep.sort(key=lambda item: (
+              item.get("doDate") or "",
+              item.get("targetDate") or "",
+              item.get("task") or "",
+          ))
+
+          days = dict(sorted(days.items()))
+
+          output = {
+              "version": 2,
+              "generatedAt": now.isoformat(timespec="seconds"),
+              "timezone": "Australia/Brisbane",
+              "days": days,
+              "prep": prep,
+          }
+
+          path = Path("meal-v2.json")
+          existing = None
+
+          if path.exists():
+              try:
+                  existing = json.loads(path.read_text())
+              except Exception:
+                  existing = None
+
+          same_data = (
+              existing
+              and existing.get("days") == output["days"]
+              and existing.get("prep") == output["prep"]
+          )
+
+          same_day = (
+              existing
+              and str(existing.get("generatedAt", ""))[:10] == today.isoformat()
+          )
+
+          if same_data and same_day:
+              print("Meal feed already current; no file change needed.")
+          else:
+              path.write_text(
+                  json.dumps(output, ensure_ascii=False, indent=2) + "\n"
+              )
+              print("Meal feed updated.")
+              print(json.dumps(output, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Publish meal feed
+        run: |
+          git config user.name "Em HQ Meal Bot"
+          git config user.email "actions@github.com"
+
+          git add meal-v2.json
+
+          if git diff --cached --quiet; then
+            echo "Meal feed already up to date."
+            exit 0
+          fi
+
+          git commit -m "Update meal widget v2 data"
+          git push

@@ -1,0 +1,63 @@
+{
+  "generatedAt": "2026-10-05T07:27:00+10:00",
+  "timezone": "Australia/Brisbane",
+  "days": {
+    "2026-10-05": {
+      "dinners": [
+        {
+          "name": "Homemade chicken nuggets + coleslaw",
+          "kidsTonight": true
+        }
+      ]
+    },
+    "2026-10-06": {
+      "dinners": [
+        {
+          "name": "Bolognese (frozen sauce) + fettuccine",
+          "kidsTonight": true
+        }
+      ]
+    },
+    "2026-10-07": {
+      "dinners": [
+        {
+          "name": "Salmon salad (+ Thurs lunch)",
+          "kidsTonight": false
+        }
+      ]
+    },
+    "2026-10-08": {
+      "dinners": [
+        {
+          "name": "Thai peanut noodles with coleslaw (+ Fri lunch)",
+          "kidsTonight": false
+        }
+      ]
+    },
+    "2026-10-09": {
+      "dinners": [
+        {
+          "name": "Steak + broccolini (3 pax)",
+          "kidsTonight": false
+        }
+      ]
+    },
+    "2026-10-10": {
+      "dinners": [
+        {
+          "name": "Spicers",
+          "kidsTonight": false
+        }
+      ]
+    },
+    "2026-10-11": {
+      "dinners": [
+        {
+          "name": "Chicken, mushroom, and leek pie",
+          "kidsTonight": false
+        }
+      ]
+    }
+  },
+  "prep": []
+}
