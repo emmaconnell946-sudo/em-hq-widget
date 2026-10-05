@@ -1,5 +1,6 @@
 {
-  "generatedAt": "2026-10-05T07:27:00+10:00",
+  "version": 2,
+  "generatedAt": "2026-10-05T10:09:32+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
     "2026-10-05": {
@@ -59,5 +60,51 @@
       ]
     }
   },
-  "prep": []
+  "prep": [
+    {
+      "id": "3e978735-e4ca-8177-89a9-d2048404ffb9",
+      "task": "Prep chicken for crumbing",
+      "doDate": "2026-10-02",
+      "targetDinner": "Crispy chicken fajitas",
+      "targetDate": "2026-10-02",
+      "timing": "Same day",
+      "done": false
+    },
+    {
+      "id": "3e978735-e4ca-8163-931d-d0fb95d1f2e5",
+      "task": "Slice fajita veg/toppings",
+      "doDate": "2026-10-02",
+      "targetDinner": "Crispy chicken fajitas",
+      "targetDate": "2026-10-02",
+      "timing": "Same day",
+      "done": false
+    },
+    {
+      "id": "3ef78735-e4ca-8192-941c-c021f7b4e62d",
+      "task": "Defrost chicken",
+      "doDate": "2026-10-07",
+      "targetDinner": "Thai peanut noodles with coleslaw (+ Fri lunch)",
+      "targetDate": "2026-10-08",
+      "timing": "1 day before",
+      "done": false
+    },
+    {
+      "id": "3ef78735-e4ca-8160-a3ad-f99ac6c3c5df",
+      "task": "Defrost potato bake",
+      "doDate": "2026-10-08",
+      "targetDinner": "Steak + broccolini (3 pax)",
+      "targetDate": "2026-10-09",
+      "timing": "1 day before",
+      "done": false
+    },
+    {
+      "id": "3ef78735-e4ca-816f-b196-e7ca1b1dd7b9",
+      "task": "Salt steak (evening)",
+      "doDate": "2026-10-08",
+      "targetDinner": "Steak + broccolini (3 pax)",
+      "targetDate": "2026-10-09",
+      "timing": "1 day before",
+      "done": false
+    }
+  ]
 }
