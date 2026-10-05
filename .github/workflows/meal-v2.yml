@@ -3,14 +3,19 @@ name: Update Meal Widget v2
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "7,22,37,52 * * * *"
 
 permissions:
   contents: write
 
+concurrency:
+  group: meal-widget-v2-sync
+  cancel-in-progress: true
+
 jobs:
   update-meals:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - name: Check out widget
@@ -29,6 +34,8 @@ jobs:
           import json
           import os
           import urllib.request
+          import urllib.error
+          import time
           from datetime import datetime, timedelta
           from pathlib import Path
           from zoneinfo import ZoneInfo
@@ -62,8 +69,21 @@ jobs:
                       },
                   )
 
-                  with urllib.request.urlopen(request) as response:
-                      data = json.load(response)
+                  last_error = None
+                  for attempt in range(3):
+                      try:
+                          with urllib.request.urlopen(request, timeout=30) as response:
+                              data = json.load(response)
+                          last_error = None
+                          break
+                      except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as exc:
+                          last_error = exc
+                          if attempt == 2:
+                              raise
+                          time.sleep(5 * (attempt + 1))
+
+                  if last_error:
+                      raise last_error
 
                   results.extend(data.get("results", []))
 
@@ -192,25 +212,14 @@ jobs:
               except Exception:
                   existing = None
 
-          same_data = (
-              existing
-              and existing.get("days") == output["days"]
-              and existing.get("prep") == output["prep"]
+          # Always publish a fresh generatedAt heartbeat after a successful
+          # Notion read. This makes the widget's "Synced" time represent the
+          # actual last successful sync, not merely the last data change.
+          path.write_text(
+              json.dumps(output, ensure_ascii=False, indent=2) + "\n"
           )
-
-          same_day = (
-              existing
-              and str(existing.get("generatedAt", ""))[:10] == today.isoformat()
-          )
-
-          if same_data and same_day:
-              print("Meal feed already current; no file change needed.")
-          else:
-              path.write_text(
-                  json.dumps(output, ensure_ascii=False, indent=2) + "\n"
-              )
-              print("Meal feed updated.")
-              print(json.dumps(output, ensure_ascii=False, indent=2))
+          print("Meal feed refreshed from Notion.")
+          print(json.dumps(output, ensure_ascii=False, indent=2))
           PY
 
       - name: Publish meal feed
@@ -221,9 +230,9 @@ jobs:
           git add meal-v2.json
 
           if git diff --cached --quiet; then
-            echo "Meal feed already up to date."
+            echo "No feed change detected."
             exit 0
           fi
 
-          git commit -m "Update meal widget v2 data"
+          git commit -m "Refresh meal widget v2 sync heartbeat"
           git push
