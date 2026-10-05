@@ -2,6 +2,9 @@ name: Update Meal Widget v2
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/meal-v2.yml"
   schedule:
     - cron: "7,22,37,52 * * * *"
 
