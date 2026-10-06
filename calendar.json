@@ -1,8 +1,18 @@
 [
   {
     "time": "",
-    "title": "Georg settlement date",
+    "title": "Cleaner",
     "all_day": true
+  },
+  {
+    "time": "",
+    "title": "Betty parasite treatment",
+    "all_day": true
+  },
+  {
+    "time": "12:00 AM – 12:00 AM",
+    "title": "Bianca",
+    "all_day": false
   },
   {
     "time": "12:00 AM – 12:00 AM",
@@ -10,23 +20,13 @@
     "all_day": false
   },
   {
-    "time": "6:15 AM – 9:00 AM",
+    "time": "5:45 AM – 8:00 AM",
     "title": "Drop kids to school",
     "all_day": false
   },
   {
     "time": "9:00 AM – 10:00 AM",
-    "title": "Laser",
-    "all_day": false
-  },
-  {
-    "time": "11:00 AM – 12:00 PM",
-    "title": "Betty vet",
-    "all_day": false
-  },
-  {
-    "time": "1:30 PM – 4:30 PM",
-    "title": "Pick kids up from school",
+    "title": "Enrolment opens for 2027",
     "all_day": false
   }
 ]
