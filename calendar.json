@@ -1,15 +1,5 @@
 [
   {
-    "time": "",
-    "title": "Cleaner",
-    "all_day": true
-  },
-  {
-    "time": "",
-    "title": "Betty parasite treatment",
-    "all_day": true
-  },
-  {
     "time": "12:00 AM – 12:00 AM",
     "title": "Bianca",
     "all_day": false
@@ -20,13 +10,18 @@
     "all_day": false
   },
   {
-    "time": "5:45 AM – 8:00 AM",
-    "title": "Drop kids to school",
+    "time": "9:00 AM – 5:00 PM",
+    "title": "Work",
     "all_day": false
   },
   {
-    "time": "9:00 AM – 10:00 AM",
-    "title": "Enrolment opens for 2027",
+    "time": "11:00 AM – 12:00 PM",
+    "title": "LWS101 tutorial",
+    "all_day": false
+  },
+  {
+    "time": "6:00 PM – 7:00 PM",
+    "title": "Anna dinner",
     "all_day": false
   }
 ]
