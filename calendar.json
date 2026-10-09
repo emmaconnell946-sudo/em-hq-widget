@@ -5,18 +5,13 @@
     "all_day": true
   },
   {
-    "time": "",
-    "title": "Home with Bianca",
-    "all_day": true
+    "time": "1:00 PM – 4:00 PM",
+    "title": "Hairdresser",
+    "all_day": false
   },
   {
-    "time": "",
-    "title": "Will in Brisbane",
-    "all_day": true
-  },
-  {
-    "time": "9:00 AM – 5:00 PM",
-    "title": "Work",
+    "time": "6:30 PM – 7:30 PM",
+    "title": "Dinner with B & Atti",
     "all_day": false
   }
 ]
