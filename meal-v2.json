@@ -1,16 +1,8 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-10T18:53:06+10:00",
+  "generatedAt": "2026-10-11T01:13:13+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
-    "2026-10-07": {
-      "dinners": [
-        {
-          "name": "Salmon salad (+ Thurs lunch)",
-          "kidsTonight": false
-        }
-      ]
-    },
     "2026-10-08": {
       "dinners": [
         {
@@ -45,15 +37,6 @@
     }
   },
   "prep": [
-    {
-      "id": "3ef78735-e4ca-8192-941c-c021f7b4e62d",
-      "task": "Defrost chicken",
-      "doDate": "2026-10-07",
-      "targetDinner": "Thai peanut noodles with coleslaw (+ Fri lunch)",
-      "targetDate": "2026-10-08",
-      "timing": "1 day before",
-      "done": false
-    },
     {
       "id": "3ef78735-e4ca-8160-a3ad-f99ac6c3c5df",
       "task": "Defrost potato bake",
