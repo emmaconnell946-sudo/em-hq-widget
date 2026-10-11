@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-12T04:58:13+10:00",
+  "generatedAt": "2026-10-12T08:47:01+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
     "2026-10-14": {
       "dinners": [
         {
           "name": "Salmon salad (+ Thurs lunch)",
-          "kidsTonight": false
+          "kidsTonight": true
         }
       ]
     },
@@ -15,7 +15,7 @@
       "dinners": [
         {
           "name": "Thai peanut noodles with coleslaw (+ Fri lunch)",
-          "kidsTonight": false
+          "kidsTonight": true
         }
       ]
     },
@@ -23,7 +23,7 @@
       "dinners": [
         {
           "name": "Steak + broccolini (3 pax)",
-          "kidsTonight": false
+          "kidsTonight": true
         }
       ]
     },
@@ -36,7 +36,6 @@
       ]
     }
   },
-  "prep": [],
   "kidsByDate": {
     "2026-10-14": true,
     "2026-10-15": true,
@@ -45,5 +44,6 @@
     "2026-10-18": true,
     "2026-10-19": true,
     "2026-10-20": true
-  }
+  },
+  "prep": []
 }
