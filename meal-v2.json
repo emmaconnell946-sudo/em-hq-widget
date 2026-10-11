@@ -1,16 +1,8 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-11T08:39:41+10:00",
+  "generatedAt": "2026-10-11T11:19:07+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
-    "2026-10-08": {
-      "dinners": [
-        {
-          "name": "Thai peanut noodles with coleslaw (+ Fri lunch)",
-          "kidsTonight": false
-        }
-      ]
-    },
     "2026-10-09": {
       "dinners": [
         {
@@ -19,10 +11,18 @@
         }
       ]
     },
-    "2026-10-10": {
+    "2026-10-14": {
       "dinners": [
         {
-          "name": "Spicers",
+          "name": "Salmon salad (+ Thurs lunch)",
+          "kidsTonight": false
+        }
+      ]
+    },
+    "2026-10-15": {
+      "dinners": [
+        {
+          "name": "Thai peanut noodles with coleslaw (+ Fri lunch)",
           "kidsTonight": false
         }
       ]
