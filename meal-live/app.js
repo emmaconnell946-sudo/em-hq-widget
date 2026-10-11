@@ -93,10 +93,10 @@ async function load(){
     const meal=document.getElementById("meal"), kids=document.getElementById("kids");
     if(dinners.length){
       meal.textContent=dinners.map(d=>d.name).join(" + ");
-      kids.hidden=!dinners.some(d=>d.kidsTonight);
+      kids.hidden=!data.kidsByDate?.[today];
     }else{
       meal.textContent="Nothing planned";
-      kids.hidden=true;
+      kids.hidden=!data.kidsByDate?.[today];
     }
     const due=data.prep.filter(t=>t.doDate===today&&!t.done);
     const tonight=due.filter(t=>t.targetDate===today);
