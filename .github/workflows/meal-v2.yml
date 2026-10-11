@@ -46,6 +46,7 @@ jobs:
           TOKEN = os.environ["NOTION_TOKEN"]
           MEAL_PLAN_SOURCE = "ae01cd31-0920-4d59-9a3c-d3df034d5a65"
           PREP_SOURCE = "ce331627-c836-42e4-9119-5243cc30dbf3"
+          CALENDAR_SOURCE = "05006542-b665-41b8-9703-f13426d486ff"
           VERSION = "2025-09-03"
           BRISBANE = ZoneInfo("Australia/Brisbane")
           now = datetime.now(BRISBANE)
@@ -116,6 +117,7 @@ jobs:
 
           meal_pages = query_all(MEAL_PLAN_SOURCE)
           prep_pages = query_all(PREP_SOURCE)
+          calendar_pages = query_all(CALENDAR_SOURCE)
 
           meal_map = {}
           days = {}
@@ -123,12 +125,32 @@ jobs:
           window_start = today - timedelta(days=3)
           window_end = today + timedelta(days=21)
 
+          # All-day event end dates are exclusive: Wed arrival to Tue night.
+          kids_by_date = {}
+          for page in calendar_pages:
+              props = page.get("properties", {})
+              if title_text(props.get("Event", {})).casefold() != "kids":
+                  continue
+              when = (props.get("When", {}).get("date") or {})
+              if not when.get("start"):
+                  continue
+              start = datetime.fromisoformat(when["start"][:10]).date()
+              end = datetime.fromisoformat(
+                  (when.get("end") or when["start"])[:10]
+              ).date()
+              if not when.get("end"):
+                  end += timedelta(days=1)
+              d = max(start, window_start)
+              while d < end and d <= window_end:
+                  kids_by_date[d.isoformat()] = True
+                  d += timedelta(days=1)
+
           for page in meal_pages:
               props = page.get("properties", {})
               name = title_text(props.get("Dinner", {}))
               meal_date = date_start(props.get("Date", {}))
               done = checkbox(props.get("Done", {}))
-              kids = checkbox(props.get("Kids Tonight", {}))
+              kids = bool(kids_by_date.get(meal_date))
 
               if not name or not meal_date:
                   continue
@@ -203,6 +225,7 @@ jobs:
               "generatedAt": now.isoformat(timespec="seconds"),
               "timezone": "Australia/Brisbane",
               "days": days,
+              "kidsByDate": kids_by_date,
               "prep": prep,
           }
 
