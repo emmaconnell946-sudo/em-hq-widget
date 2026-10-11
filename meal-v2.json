@@ -1,16 +1,8 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-11T17:18:04+10:00",
+  "generatedAt": "2026-10-12T00:07:42+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
-    "2026-10-09": {
-      "dinners": [
-        {
-          "name": "Steak + broccolini (3 pax)",
-          "kidsTonight": false
-        }
-      ]
-    },
     "2026-10-14": {
       "dinners": [
         {
@@ -27,6 +19,14 @@
         }
       ]
     },
+    "2026-10-16": {
+      "dinners": [
+        {
+          "name": "Steak + broccolini (3 pax)",
+          "kidsTonight": false
+        }
+      ]
+    },
     "2026-10-25": {
       "dinners": [
         {
@@ -36,24 +36,5 @@
       ]
     }
   },
-  "prep": [
-    {
-      "id": "3ef78735-e4ca-8160-a3ad-f99ac6c3c5df",
-      "task": "Defrost potato bake",
-      "doDate": "2026-10-08",
-      "targetDinner": "Steak + broccolini (3 pax)",
-      "targetDate": "2026-10-09",
-      "timing": "1 day before",
-      "done": false
-    },
-    {
-      "id": "3ef78735-e4ca-816f-b196-e7ca1b1dd7b9",
-      "task": "Salt steak (evening)",
-      "doDate": "2026-10-08",
-      "targetDinner": "Steak + broccolini (3 pax)",
-      "targetDate": "2026-10-09",
-      "timing": "1 day before",
-      "done": false
-    }
-  ]
+  "prep": []
 }
