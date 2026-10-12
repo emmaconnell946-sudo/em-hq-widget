@@ -1,12 +1,28 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-12T08:47:01+10:00",
+  "generatedAt": "2026-10-12T11:49:04+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
+    "2026-10-12": {
+      "dinners": [
+        {
+          "name": "Salmon salad (4 people)",
+          "kidsTonight": false
+        }
+      ]
+    },
+    "2026-10-13": {
+      "dinners": [
+        {
+          "name": "Miso Ginger Beef (2 people + lunch)",
+          "kidsTonight": false
+        }
+      ]
+    },
     "2026-10-14": {
       "dinners": [
         {
-          "name": "Salmon salad (+ Thurs lunch)",
+          "name": "One Skillet Greek Lemon Chicken and Rice (4 people)",
           "kidsTonight": true
         }
       ]
