@@ -261,4 +261,17 @@ jobs:
           fi
 
           git commit -m "Refresh meal widget v2 sync heartbeat"
-          git push
+          # Handle concurrent updates from other repository workflows.
+          for attempt in 1 2 3 4; do
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              exit 1
+            fi
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Could not publish meal feed after retries" >&2
+          exit 1
