@@ -5,8 +5,28 @@
     "all_day": true
   },
   {
+    "time": "8:00 AM – 9:30 AM",
+    "title": "Drive to gym",
+    "all_day": false
+  },
+  {
+    "time": "9:30 AM – 10:30 AM",
+    "title": "Training",
+    "all_day": false
+  },
+  {
     "time": "11:00 AM – 1:00 PM",
     "title": "Skills development session N402",
+    "all_day": false
+  },
+  {
+    "time": "1:00 PM – 2:00 PM",
+    "title": "Drive home",
+    "all_day": false
+  },
+  {
+    "time": "2:00 PM – 3:00 PM",
+    "title": "Chemist and visit nan and pop",
     "all_day": false
   }
 ]
