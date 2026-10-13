@@ -1,24 +1,8 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-14T04:31:42+10:00",
+  "generatedAt": "2026-10-14T09:03:39+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
-    "2026-10-12": {
-      "dinners": [
-        {
-          "name": "Salmon salad (4 people)",
-          "kidsTonight": false
-        }
-      ]
-    },
-    "2026-10-13": {
-      "dinners": [
-        {
-          "name": "Miso Ginger Beef (2 people + lunch)",
-          "kidsTonight": false
-        }
-      ]
-    },
     "2026-10-14": {
       "dinners": [
         {
