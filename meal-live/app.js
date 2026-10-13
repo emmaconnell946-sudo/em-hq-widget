@@ -18,6 +18,7 @@ h1,h2{font-family:"DM Serif Display",Georgia,serif;font-weight:400;margin:0}
 h1{font-size:clamp(28px,3.2vw,46px);line-height:1.02}
 h2{font-size:25px;line-height:1.05}
 .date{margin-top:8px;font-size:13px;color:rgba(255,240,230,.72)}
+.badge[hidden]{display:none!important}
 .badge{display:inline-flex;width:max-content;margin-top:20px;padding:7px 10px;border-radius:999px;background:var(--pink);color:var(--plum);font-size:12px;font-weight:700}
 .list{display:flex;flex-direction:column;gap:9px;margin-top:16px}
 .item{padding:10px 0;border-bottom:1px solid var(--line)} .item:last-child{border-bottom:0}
