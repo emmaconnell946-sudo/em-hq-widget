@@ -1,32 +1,22 @@
 [
   {
     "time": "",
+    "title": "Recycling",
+    "all_day": true
+  },
+  {
+    "time": "",
     "title": "Kids",
     "all_day": true
   },
   {
-    "time": "8:00 AM – 9:30 AM",
-    "title": "Drive to gym",
+    "time": "9:00 AM – 5:00 PM",
+    "title": "Work",
     "all_day": false
   },
   {
-    "time": "9:30 AM – 10:30 AM",
-    "title": "Training",
-    "all_day": false
-  },
-  {
-    "time": "11:00 AM – 1:00 PM",
-    "title": "Skills development session N402",
-    "all_day": false
-  },
-  {
-    "time": "1:00 PM – 2:00 PM",
-    "title": "Drive home",
-    "all_day": false
-  },
-  {
-    "time": "2:00 PM – 3:00 PM",
-    "title": "Chemist and visit nan and pop",
+    "time": "11:00 AM – 12:00 PM",
+    "title": "LWS101 tutorial",
     "all_day": false
   }
 ]
