@@ -1,16 +1,8 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-17T22:27:49+10:00",
+  "generatedAt": "2026-10-18T01:52:43+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
-    "2026-10-14": {
-      "dinners": [
-        {
-          "name": "One Skillet Greek Lemon Chicken and Rice (4 people)",
-          "kidsTonight": true
-        }
-      ]
-    },
     "2026-10-15": {
       "dinners": [
         {
@@ -37,7 +29,6 @@
     }
   },
   "kidsByDate": {
-    "2026-10-14": true,
     "2026-10-15": true,
     "2026-10-16": true,
     "2026-10-17": true,
