@@ -3,15 +3,5 @@
     "time": "",
     "title": "Kids",
     "all_day": true
-  },
-  {
-    "time": "3:00 PM – 4:00 PM",
-    "title": "Will out with school mates",
-    "all_day": false
-  },
-  {
-    "time": "7:45 PM – 8:45 PM",
-    "title": "Reservation at sAme sAme",
-    "all_day": false
   }
 ]
