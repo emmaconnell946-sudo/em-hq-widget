@@ -1,21 +1,29 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-18T23:36:01+10:00",
+  "generatedAt": "2026-10-19T02:50:32+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
-    "2026-10-15": {
+    "2026-10-21": {
       "dinners": [
         {
-          "name": "Thai peanut noodles with coleslaw (+ Fri lunch)",
-          "kidsTonight": true
+          "name": "One Skillet Greek Lemon Chicken and Rice (4 people)",
+          "kidsTonight": false
         }
       ]
     },
-    "2026-10-16": {
+    "2026-10-22": {
+      "dinners": [
+        {
+          "name": "Thai peanut noodles with coleslaw (+ Fri lunch)",
+          "kidsTonight": false
+        }
+      ]
+    },
+    "2026-10-23": {
       "dinners": [
         {
           "name": "Steak + broccolini (3 pax)",
-          "kidsTonight": true
+          "kidsTonight": false
         }
       ]
     },
@@ -29,7 +37,6 @@
     }
   },
   "kidsByDate": {
-    "2026-10-15": true,
     "2026-10-16": true,
     "2026-10-17": true,
     "2026-10-18": true,
