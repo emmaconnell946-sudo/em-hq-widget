@@ -1,12 +1,22 @@
 [
   {
     "time": "",
-    "title": "Week 13",
+    "title": "Kids",
     "all_day": true
   },
   {
-    "time": "",
-    "title": "Kids",
-    "all_day": true
+    "time": "11:00 AM – 11:30 AM",
+    "title": "Optometrist",
+    "all_day": false
+  },
+  {
+    "time": "11:30 AM – 12:00 PM",
+    "title": "Dentist",
+    "all_day": false
+  },
+  {
+    "time": "12:30 PM – 1:30 PM",
+    "title": "Training",
+    "all_day": false
   }
 ]
