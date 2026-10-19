@@ -1,12 +1,28 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-19T11:36:31+10:00",
+  "generatedAt": "2026-10-19T16:45:12+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
+    "2026-10-19": {
+      "dinners": [
+        {
+          "name": "Thai peanut noodles with coleslaw",
+          "kidsTonight": true
+        }
+      ]
+    },
+    "2026-10-20": {
+      "dinners": [
+        {
+          "name": "Salmon and cucumber salad",
+          "kidsTonight": true
+        }
+      ]
+    },
     "2026-10-21": {
       "dinners": [
         {
-          "name": "One Skillet Greek Lemon Chicken and Rice (4 people)",
+          "name": "Chicken and veg",
           "kidsTonight": false
         }
       ]
@@ -14,7 +30,7 @@
     "2026-10-22": {
       "dinners": [
         {
-          "name": "Thai peanut noodles with coleslaw (+ Fri lunch)",
+          "name": "Chicken larb",
           "kidsTonight": false
         }
       ]
@@ -22,7 +38,15 @@
     "2026-10-23": {
       "dinners": [
         {
-          "name": "Steak + broccolini (3 pax)",
+          "name": "Ham and veg",
+          "kidsTonight": false
+        }
+      ]
+    },
+    "2026-10-24": {
+      "dinners": [
+        {
+          "name": "Greek slow cooked lamb, lemon potatoes, maroulosalata",
           "kidsTonight": false
         }
       ]
