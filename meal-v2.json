@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-20T22:54:54+10:00",
+  "generatedAt": "2026-10-21T03:53:59+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
     "2026-10-19": {
@@ -61,7 +61,6 @@
     }
   },
   "kidsByDate": {
-    "2026-10-17": true,
     "2026-10-18": true,
     "2026-10-19": true,
     "2026-10-20": true
