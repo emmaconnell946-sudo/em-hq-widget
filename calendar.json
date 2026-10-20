@@ -1,22 +1,12 @@
 [
   {
     "time": "",
-    "title": "Kids",
+    "title": "Cleaner",
     "all_day": true
   },
   {
-    "time": "11:00 AM – 11:30 AM",
-    "title": "Optometrist",
-    "all_day": false
-  },
-  {
-    "time": "11:30 AM – 12:00 PM",
-    "title": "Dentist",
-    "all_day": false
-  },
-  {
-    "time": "12:30 PM – 1:30 PM",
-    "title": "Training",
+    "time": "11:15 AM – 12:15 PM",
+    "title": "Laser",
     "all_day": false
   }
 ]
