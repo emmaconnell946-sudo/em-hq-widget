@@ -1,16 +1,8 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-23T21:27:25+10:00",
+  "generatedAt": "2026-10-24T01:52:01+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
-    "2026-10-20": {
-      "dinners": [
-        {
-          "name": "Salmon and cucumber salad",
-          "kidsTonight": true
-        }
-      ]
-    },
     "2026-10-21": {
       "dinners": [
         {
@@ -59,8 +51,7 @@
     "2026-10-31": true,
     "2026-11-01": true,
     "2026-11-02": true,
-    "2026-11-03": true,
-    "2026-10-20": true
+    "2026-11-03": true
   },
   "prep": []
 }
