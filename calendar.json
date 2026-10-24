@@ -3,5 +3,10 @@
     "time": "",
     "title": "Swotvac",
     "all_day": true
+  },
+  {
+    "time": "1:30 PM – 2:30 PM",
+    "title": "Jazz birthday lunch @ The Doonan",
+    "all_day": false
   }
 ]
