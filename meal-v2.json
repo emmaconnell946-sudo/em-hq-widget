@@ -1,16 +1,8 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-24T23:38:54+10:00",
+  "generatedAt": "2026-10-25T03:01:25+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
-    "2026-10-21": {
-      "dinners": [
-        {
-          "name": "Chicken and veg",
-          "kidsTonight": false
-        }
-      ]
-    },
     "2026-10-22": {
       "dinners": [
         {
