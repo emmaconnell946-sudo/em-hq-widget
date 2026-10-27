@@ -1,16 +1,8 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-27T18:18:34+10:00",
+  "generatedAt": "2026-10-28T00:37:50+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
-    "2026-10-24": {
-      "dinners": [
-        {
-          "name": "Greek slow cooked lamb, lemon potatoes, maroulosalata",
-          "kidsTonight": false
-        }
-      ]
-    },
     "2026-10-25": {
       "dinners": [
         {
