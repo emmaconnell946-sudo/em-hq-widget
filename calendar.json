@@ -1,7 +1,17 @@
 [
   {
     "time": "",
+    "title": "Kids",
+    "all_day": true
+  },
+  {
+    "time": "",
     "title": "Swotvac",
     "all_day": true
+  },
+  {
+    "time": "2:00 PM – 4:00 PM",
+    "title": "Pick up kids",
+    "all_day": false
   }
 ]
