@@ -1,16 +1,8 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-28T18:43:52+10:00",
+  "generatedAt": "2026-10-29T01:29:34+10:00",
   "timezone": "Australia/Brisbane",
   "days": {
-    "2026-10-25": {
-      "dinners": [
-        {
-          "name": "Chicken, mushroom, and leek pie",
-          "kidsTonight": false
-        }
-      ]
-    },
     "2026-10-26": {
       "dinners": [
         {
