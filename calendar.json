@@ -6,12 +6,27 @@
   },
   {
     "time": "",
+    "title": "Recycling",
+    "all_day": true
+  },
+  {
+    "time": "",
     "title": "Swotvac",
     "all_day": true
   },
   {
-    "time": "2:00 PM – 4:00 PM",
-    "title": "Pick up kids",
+    "time": "11:00 AM – 11:30 AM",
+    "title": "Dentist",
+    "all_day": false
+  },
+  {
+    "time": "11:45 AM – 12:15 PM",
+    "title": "Optometrist",
+    "all_day": false
+  },
+  {
+    "time": "1:00 PM – 2:00 PM",
+    "title": "Training",
     "all_day": false
   }
 ]
