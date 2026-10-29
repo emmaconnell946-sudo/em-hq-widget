@@ -1,17 +1,8 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-29T22:48:52+10:00",
+  "generatedAt": "2026-10-30T04:40:26+10:00",
   "timezone": "Australia/Brisbane",
-  "days": {
-    "2026-10-26": {
-      "dinners": [
-        {
-          "name": "Thai peanut noodles with coleslaw",
-          "kidsTonight": false
-        }
-      ]
-    }
-  },
+  "days": {},
   "kidsByDate": {
     "2026-10-28": true,
     "2026-10-29": true,
